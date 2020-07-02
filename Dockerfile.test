@@ -1,0 +1,19 @@
+# Build stage
+FROM microsoft/dotnet:2.1-sdk AS build
+
+# set working directory
+WORKDIR /app
+
+# Copy src
+COPY . .
+
+# Restore
+COPY Source/Service/Service.csproj ./Source/Service/
+RUN dotnet restore Source/Service/Service.csproj
+COPY Source/Process/Process.csproj ./Source/Process/
+RUN dotnet restore Source/Process/Process.csproj
+COPY Test/Service.Test/Service.Test.csproj ./Test/Service.Test/
+RUN dotnet restore Test/Service.Test/Service.Test.csproj
+
+# Test
+ENV TEAMCITY_PROJECT_NAME=fake

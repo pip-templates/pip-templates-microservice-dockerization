@@ -1,0 +1,25 @@
+# Build stage
+FROM microsoft/dotnet:2.1-sdk AS build
+
+# set working directory
+WORKDIR /app
+
+# Copy nuget to pull nuget packs from private reps
+COPY nuget.config .
+
+# Restore
+COPY Source/Service/Service.csproj ./Source/Service/
+RUN dotnet restore Source/Service/Service.csproj
+COPY Source/Process/Process.csproj ./Source/Process/
+RUN dotnet restore Source/Process/Process.csproj
+
+# Copy src
+COPY . .
+
+# Publish
+RUN dotnet build Source/Process/Process.csproj
+RUN dotnet publish Source/Process/Process.csproj -o /obj
+
+# Pack Nuget
+RUN dotnet build Source/Service/Service.csproj -c Release
+RUN dotnet pack Source/Service/Service.csproj -c Release -o ../../../dist

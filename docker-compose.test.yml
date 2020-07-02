@@ -1,0 +1,9 @@
+version: '3.3'
+
+services:
+  test:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.test
+    image: ${IMAGE:-azure-example-dockerization/test}
+    command: ${TEST_CMD:-bash -c "dotnet test Test/Service.Test/Service.Test.csproj"}
