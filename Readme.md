@@ -5,7 +5,8 @@ This is template for docker environment for .NET Core microservice.
 # Usage
 
 Copy all dockerfiles to microservice docker folder and manually create build configuration (pipeline) on TFS. 
-2. Build Steps - create 'Command line' steps and run powershell scripts in next order 
+Build Steps - create 'Command line' steps and run powershell scripts in next order 
+    
     1) build.ps1
     2) test.ps1
     3) package.ps1
